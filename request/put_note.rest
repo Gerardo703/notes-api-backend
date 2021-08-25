@@ -1,0 +1,7 @@
+PUT http://localhost:3001/api/notes/61266b40c8585c422011db91
+Content-Type: application/json
+
+{
+    "content": "Dale Like",
+    "important" : true
+}

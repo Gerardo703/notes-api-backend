@@ -2,5 +2,6 @@ POST http://localhost:3001/api/notes
 Content-Type: application/json
 
 {
-    "content": "Esto es una nueva nota"
+    "content": "El mejor contenido MiduDev",
+    "important" : false
 }
