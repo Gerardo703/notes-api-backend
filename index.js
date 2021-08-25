@@ -5,6 +5,9 @@ const cors = require('cors');
 const app = express();
 const Note = require('./models/Note');
 
+const notFound = require('./middlewares/notFound');
+const handleErrors = require('./middlewares/handleErrors');
+
 app.use(express.json());
 app.use(cors());
 
@@ -87,19 +90,9 @@ app.post('/api/notes', (request, response) => {
 });
 
 //Middleware que controla los errores
-app.use((request, response, next) => {
-    response.status(404).send();
-})
-
-app.use((error, request, response, next) => {
-    console.log(error);
-
-    if(error.name === 'CastError'){
-        response.status(400).send({error: 'id used is malformed'});
-    } else {
-        response.status(500).end();
-    }
-});
+//Siempre al final de los path!!
+app.use(notFound);
+app.use(handleErrors);
 
 const PORT = process.env.PORT || 3001;
 
