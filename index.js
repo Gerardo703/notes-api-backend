@@ -17,10 +17,10 @@ app.get('/', (request, response) => {
 });
 
 //Obtener todas las notas
-app.get('/api/notes', (request, response) => {
+app.get('/api/notes', (request, response, next) => {
     Note.find({}).then(notes => {
         response.json(notes);
-    });
+    }).catch( error => next(error) )
 });
 
 //Obtener una nota por su Id
@@ -28,24 +28,19 @@ app.get('/api/notes/:id', (request, response, next) => {
     const { id } = request.params;
 
     Note.findById(id).then(note => {
-        if(note){
-            response.json(note);
-        } else{
-            response.status(404).end();
-        }
-    }).catch(err => {
-        next(err);
-    })
+        note 
+        ? response.json(note) 
+        : response.status(404).end();
+        
+    }).catch( error => next(error) )
 });
 
 //Eliminar una nota por su Id
 app.delete('/api/notes/:id', (request, response, next) => {
     const { id } = request.params;
-    Note.findByIdAndRemove(id).then( result => {
+    Note.findByIdAndDelete(id).then( () => {
         response.status(204).end();
     }).catch(error => next(error))
-    
-    response.status(204).end();
 });
 
 //Editar una nota 
