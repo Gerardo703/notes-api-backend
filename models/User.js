@@ -1,25 +1,28 @@
 const mongoose = require('mongoose');
 
 //Creamos un esquema de la nota
-const noteSchema = mongoose.Schema({
-    content: String,
-    date: Date,
-    important: Boolean,
-    user: [{
+const userSchema = mongoose.Schema({
+    userName: String,
+    name: String,
+    passwordHash: String,
+    notes: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'Note'
     }]
 });
 
 // Cambiamos el _id por id con returnedObject
-noteSchema.set('toJSON', {
+userSchema.set('toJSON', {
     transform: (document, returnedObject) => {
         returnedObject.id = returnedObject._id;
         delete returnedObject._id;
         delete returnedObject.__v;
+
+        delete returnedObject.passwordHash;
     }
-})
+});
 
-const Note = mongoose.model('Note', noteSchema);
+const User = mongoose.model('User', userSchema);
 
-module.exports = Note;
+module.exports = User;
+
