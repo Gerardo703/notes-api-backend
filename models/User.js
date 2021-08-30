@@ -1,8 +1,12 @@
+var uniqueValidator = require('mongoose-unique-validator'); 
 const mongoose = require('mongoose');
 
 //Creamos un esquema de la nota
 const userSchema = mongoose.Schema({
-    userName: String,
+    userName: {
+        type: String,
+        unique: true
+    },
     name: String,
     passwordHash: String,
     notes: [{
@@ -21,6 +25,8 @@ userSchema.set('toJSON', {
         delete returnedObject.passwordHash;
     }
 });
+
+userSchema.plugin(uniqueValidator);
 
 const User = mongoose.model('User', userSchema);
 

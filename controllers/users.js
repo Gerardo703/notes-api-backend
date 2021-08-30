@@ -18,7 +18,7 @@ usersRouter.post('/', async(request, response, next) => {
         });
 
         const savedUser = await user.save();
-        response.status(200).json(savedUser);
+        response.status(201).json(savedUser);
 
     } catch (error) {
         next(error);
@@ -30,19 +30,18 @@ usersRouter.delete('/:id', async(request, response, next) => {
     try{
         const { id } = request.params;
 
-        const deletedUser = await User.findByIdAndDelete(id)
+        const deletedUser = await User.findByIdAndDelete(id).populate('notes', { content: 1, date: 1 });
         response.status(204).json(deletedUser);
 
     }catch(error){
         next(error);
     }
-    
 });
 
 usersRouter.get('/', async(request, response, next) => {
 
     try {
-        const allUsers = await User.find();
+        const allUsers = await User.find({}).populate('notes').populate('notes', { content: 1, date: 1 });
         response.json(allUsers);
 
     } catch (error) {

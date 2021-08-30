@@ -10,6 +10,7 @@ const handleErrors = require('./middlewares/handleErrors');
 
 const usersRouter = require('./controllers/users');
 const notesRouter = require('./controllers/notes');
+const loginRouter = require('./controllers/login');
 
 app.use(express.json());
 app.use(cors());
@@ -87,6 +88,7 @@ app.get('/', (request, response) => {
 
 app.use('/api/users', usersRouter);
 app.use('/api/notes', notesRouter);
+app.use('/api/login', loginRouter);
 
 //Middleware que controla los errores
 //Siempre al final de los path!!
